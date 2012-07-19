@@ -56,7 +56,11 @@ const RotateInForWindow = new Lang.Class({
                                 actor.rotation_angle_z = actor._rz;
                              },
                              time: WINDOW_ANIMATION_TIME,
-                             transition: 'easeOutQuad'
+                             transition: 'easeOutQuad',
+                             onComplete:function(actor){
+                                actor.rotation_angle_z = 0;
+                             },
+                             onCompleteParams:[actor]
                             });
             
         };
