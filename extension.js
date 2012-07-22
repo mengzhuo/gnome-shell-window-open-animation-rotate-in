@@ -74,8 +74,7 @@ const RotateInForWindow = new Lang.Class({
     }
 });
 
-rotatemaker = null;
-metadata = null;
+let rotatemaker,metadata = null;
 
 function enable() {
     // check conflict extension
