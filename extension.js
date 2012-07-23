@@ -8,7 +8,7 @@ const ExtensionUtils = imports.misc.extensionUtils;
 
 
 const CONLICT_UUID = [];
-const WINDOW_ANIMATION_TIME = 0.2;
+const WINDOW_ANIMATION_TIME = 0.24;
 const ROTATION_ANGLE = 7;
 
 const RotateInForWindow = new Lang.Class({
@@ -30,6 +30,7 @@ const RotateInForWindow = new Lang.Class({
     _rotateIn : function (display,window){
         
         if (!window.maximized_horizontally && window.get_window_type() == Meta.WindowType.NORMAL){
+            
             let actor = window.get_compositor_private();
             
             let [prevX,prevY] = actor.get_position();
@@ -48,22 +49,28 @@ const RotateInForWindow = new Lang.Class({
             
             //FIXME why rotation_angle_z won't work if we use it in Tweener directly?
             actor._rz = ( x_flag*y_flag < 0 )?-ROTATION_ANGLE:ROTATION_ANGLE;
+            actor.rotation_angle_z = actor._rz;
 
             Tweener.addTween(actor,{
-                             _rz:0,
-                             onUpdateScope: actor,
-                             onUpdate: function(){
-                                actor.rotation_angle_z = actor._rz;
-                             },
-                             time: WINDOW_ANIMATION_TIME,
-                             transition: 'easeOutQuad',
-                             onComplete:function(actor){
-                                actor.rotation_angle_z = 0;
-                             },
-                             onCompleteParams:[actor]
+                                 _rz:0,
+                                 onUpdateScope: actor,
+                                 onUpdate: function(){
+                                    actor.rotation_angle_z = actor._rz;
+                                 },
+                                 time: WINDOW_ANIMATION_TIME,
+                                 transition: "easeOutQuad",
+                                 onCompleteScope:this,
+                                 onComplete: this._animationDone,
+                                 onCompleteParams: [actor],
+                                 onOverwrite : this._animationDone,
+                                 onCompleteScope : this,
+                                 onCompleteParams: [actor]
                             });
             
         };
+    },
+    _animationDone : function (actor){
+        actor.rotation_angle_z = actor._rz = 0;
     },
     destroy : function (){
         delete global._rotate_in_aminator;
