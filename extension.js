@@ -33,8 +33,8 @@ const RotateInForWindow = new Lang.Class({
             
             let actor = window.get_compositor_private();
             
-            let [prevX,prevY] = actor.get_position();
-            let [width,height] = actor.get_size();
+            [prevX,prevY] = actor.get_position();
+            [width,height] = actor.get_size();
             
             let centerX = (prevX+Math.round(width/2));
             let centerY = (prevY+Math.round(height/2));
@@ -47,7 +47,7 @@ const RotateInForWindow = new Lang.Class({
                                                 z:0});
             actor.rotation_center_z = vertex;
             
-            //FIXME why rotation_angle_z won't work if we use it in Tweener directly?
+            //FIXME why "rotation_angle_z" won't work if we use it in Tweener directly?
             actor._rz = ( x_flag*y_flag < 0 )?-ROTATION_ANGLE:ROTATION_ANGLE;
             actor.rotation_angle_z = actor._rz;
 
@@ -63,8 +63,8 @@ const RotateInForWindow = new Lang.Class({
                                  onComplete: this._animationDone,
                                  onCompleteParams: [actor],
                                  onOverwrite : this._animationDone,
-                                 onCompleteScope : this,
-                                 onCompleteParams: [actor]
+                                 onOverwriteScope : this,
+                                 onOverwriteParams: [actor]
                             });
             
         };
@@ -81,7 +81,8 @@ const RotateInForWindow = new Lang.Class({
     }
 });
 
-let rotatemaker,metadata = null;
+let rotatemaker = null;
+let metadata = null;
 
 function enable() {
     // check conflict extension
