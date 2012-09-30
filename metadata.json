@@ -1,6 +1,6 @@
 {
 "uuid": "window-open-animation-rotate-in@mengzhuo.org",
-"shell-version": ["3.4","3.4.1"],
+"shell-version": ["3.4","3.4.1","3.6"],
 "name": "Window Rotate In",
 "url": "https://github.com/mengzhuo/gnome-shell-window-open-animation-rotate-in",
 "description": "Offer a Rotate-In-Amination effect while openning an window\n In combination with Scale or Slide is available"
