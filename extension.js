@@ -28,8 +28,14 @@ const RotateInForWindow = new Lang.Class({
         
     },
     _rotateIn : function (display,window){
+    
+         //FIXME: Workaround for Chromium, I don't know what to do with chromium, it appears that Chromium will decorate itself and not telling WM.
+         if (window.get_wm_class() == 'Chromium-browser')
+            return true;
         
         if (!window.maximized_horizontally && window.get_window_type() == Meta.WindowType.NORMAL){
+            
+
             
             let actor = window.get_compositor_private();
             
