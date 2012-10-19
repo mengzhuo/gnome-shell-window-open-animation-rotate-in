@@ -20,7 +20,10 @@ const RotateInForWindow = new Lang.Class({
         this._display =  global.screen.get_display();
         
         this.signalConnectID = this._display.connect('window-created', Lang.bind(this, this._rotateIn));
-
+        
+        this.afterSignalConnectID = this.display.connect_after('window-created', Lang.bind(this, this._animationDone));
+        
+        
         global._rotate_in_aminator = this;
         
         this._x_half = global.screen_width/2;
@@ -28,10 +31,6 @@ const RotateInForWindow = new Lang.Class({
         
     },
     _rotateIn : function (display,window){
-    
-         //FIXME: Workaround for Chromium, I don't know what to do with chromium, it appears that Chromium will decorate itself and not telling WM.
-         if (window.get_wm_class() == 'Chromium-browser')
-            return true;
         
         if (!window.maximized_horizontally && window.get_window_type() == Meta.WindowType.NORMAL){
             
@@ -81,6 +80,7 @@ const RotateInForWindow = new Lang.Class({
     destroy : function (){
         delete global._rotate_in_aminator;
         this._display.disconnect(this.signalConnectID);
+        this._display.disconnect(this.afterSignalConnectID);
     },
     _onDestroy : function (){
         this.destroy();
