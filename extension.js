@@ -21,7 +21,7 @@ const RotateInForWindow = new Lang.Class({
         
         this.signalConnectID = this._display.connect('window-created', Lang.bind(this, this._rotateIn));
         
-        this.afterSignalConnectID = this.display.connect_after('window-created', Lang.bind(this, this._animationDone));
+        this.afterSignalConnectID = this._display.connect_after('window-created', Lang.bind(this, this._animationDone));
         
         
         global._rotate_in_aminator = this;
